@@ -1,3 +1,5 @@
+import * as __SNOWPACK_ENV__ from '../../_snowpack/env.js';
+
 import React, {useState, useEffect} from "../../_snowpack/pkg/react.js";
 import {useRegions} from "../functions/useRegions.js";
 import {Spinner, Container, VStack, Portal, Box} from "../../_snowpack/pkg/@chakra-ui/react.js";
@@ -12,7 +14,7 @@ export default function MainPage() {
   };
   if (queryParamCity.city && queryParamCity.province) {
     SessionCache.lastSelectedCity = queryParamCity;
-    window.history.replaceState({}, document.title, "/");
+    window.history.replaceState({}, document.title, __SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL);
   }
   const {regions, start: fetchRegions, _setRegions} = useRegions();
   const [isLoadingRegions, setLoadingRegions] = useState(SessionCache.regions.length === 0);
