@@ -29,7 +29,7 @@ const SearchInput = forwardRef((props, ref) => {
     as: FaSearch,
     color: "green.500"
   })), /* @__PURE__ */ React.createElement(Input, {
-    placeholder: "Masukkan nama kota/kab.",
+    placeholder: "Cari kota/kabupaten disini...",
     ref,
     onInput: (e) => {
       const input = e.target;
