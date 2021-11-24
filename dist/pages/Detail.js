@@ -1,3 +1,5 @@
+import * as __SNOWPACK_ENV__ from '../../_snowpack/env.js';
+
 import {LocationCache} from "../cache.js";
 import {
   Container,
@@ -124,7 +126,7 @@ export default function InformationPage() {
   const {locationHash} = useParams();
   const location = LocationCache[locationHash];
   if (location == null) {
-    window.location.replace("/");
+    window.location.href = __SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL;
     return /* @__PURE__ */ React.createElement(React.Fragment, null);
   }
   return /* @__PURE__ */ React.createElement(Container, {
