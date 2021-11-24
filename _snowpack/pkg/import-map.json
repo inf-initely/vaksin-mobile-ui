@@ -1,0 +1,14 @@
+{
+  "imports": {
+    "@chakra-ui/react": "./@chakra-ui/react.js",
+    "fuse.js": "./fusejs.js",
+    "object-hash": "./object-hash.js",
+    "react": "./react.js",
+    "react-dom": "./react-dom.js",
+    "react-icons/fa": "./react-icons/fa.js",
+    "react-icons/ri": "./react-icons/ri.js",
+    "react-router": "./react-router.js",
+    "react-router-dom": "./react-router-dom.js",
+    "superstruct": "./superstruct.js"
+  }
+}
