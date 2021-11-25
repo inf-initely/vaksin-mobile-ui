@@ -5,8 +5,8 @@
     "test": "web-test-runner \"src/**/*.test.tsx\"",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
-    "predeploy": "snowpack build",
-    "deploy": "gh-pages -d build"
+    "predeploy": "set \"SNOWPACK_PUBLIC_API_URL=/vaksin-mobile-ui\" && snowpack build --baseUrl \"/vaksin-mobile-ui\" && type nul > build/.nojekyll",
+    "deploy": "gh-pages -d build -t true"
   },
   "homepage": "https://inf-initely.github.io/vaksin-mobile-ui",
   "dependencies": {
