@@ -17,8 +17,9 @@ import {
 } from "../../_snowpack/pkg/react-icons/ri.js";
 import hash from "../../_snowpack/pkg/object-hash.js";
 import regMethodNormalizer from "../functions/regMethodNormalizer.js";
+import {SessionCache} from "../cache.js";
 export default function LocationItem(props) {
-  const {location, onOpenDetail: onOpenModal, ...rest} = props;
+  const {location, onOpenDetail, ...rest} = props;
   const {display, icon, color} = regMethodNormalizer(location.registration);
   return /* @__PURE__ */ React.createElement(LinkBox, {
     ...rest,
@@ -41,7 +42,10 @@ export default function LocationItem(props) {
     color: "green.600",
     fontWeight: "semibold",
     fontSize: "sm",
-    onClick: () => onOpenModal?.(location)
+    onClick: () => {
+      onOpenDetail?.(location);
+      SessionCache.scrollY = window.scrollY;
+    }
   }, location.title), /* @__PURE__ */ React.createElement(Grid, {
     templateColumns: "max-content auto",
     gridGap: 1,

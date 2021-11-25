@@ -10,7 +10,7 @@ import {useLocations} from "../functions/useLocations.js";
 import React, {useEffect} from "../../_snowpack/pkg/react.js";
 import LocationItem from "./_LocationItem.js";
 import hash from "../../_snowpack/pkg/object-hash.js";
-import {LocationCache} from "../cache.js";
+import {LocationCache, SessionCache} from "../cache.js";
 import {RiEmotionUnhappyLine} from "../../_snowpack/pkg/react-icons/ri.js";
 export default function LocationList(props) {
   const {selectedCity, ...rest} = props;
@@ -18,7 +18,9 @@ export default function LocationList(props) {
   useEffect(() => {
     if (selectedCity == null)
       return;
-    start();
+    start().then((_) => {
+      window.scrollTo({top: SessionCache.scrollY});
+    });
   }, [selectedCity]);
   console.log(locations, selectedCity);
   return /* @__PURE__ */ React.createElement(Box, {

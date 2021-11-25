@@ -4,6 +4,7 @@ export default function GoogleMapEmbed(props) {
   const {link} = props;
   return /* @__PURE__ */ React.createElement(Link, {
     href: link,
-    variant: "highlight"
+    variant: "highlight",
+    target: "_blank"
   }, "Buka di Google Maps");
 }
