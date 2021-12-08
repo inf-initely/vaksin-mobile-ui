@@ -32,6 +32,7 @@ import {
 import regMethodNormalizer from "../functions/regMethodNormalizer.js";
 import GoogleMapEmbed from "../components/GMapEmbed.js";
 import {useSearchParams} from "../../_snowpack/pkg/react-router-dom.js";
+import {Helmet} from "../../_snowpack/pkg/react-helmet.js";
 const TablesBody = [
   [
     "Deskripsi",
@@ -132,6 +133,8 @@ export default function InformationPage() {
     return /* @__PURE__ */ React.createElement(React.Fragment, null);
   }
   useEffect(() => {
+    if (searchParams.has("lsc"))
+      return;
     window.history.replaceState({}, document.title, window.location.href + `?Y=${SessionCache.scrollY}&lsc=${btoa(JSON.stringify(SessionCache.lastSelectedCity))}`);
   }, []);
   return /* @__PURE__ */ React.createElement(Container, {
@@ -143,7 +146,7 @@ export default function InformationPage() {
     flexDirection: "column",
     px: 4,
     pb: 3
-  }, /* @__PURE__ */ React.createElement(Heading, {
+  }, /* @__PURE__ */ React.createElement(Helmet, null, /* @__PURE__ */ React.createElement("title", null, `${location.title} di ${SessionCache.lastSelectedCity?.city}`)), /* @__PURE__ */ React.createElement(Heading, {
     as: "h1",
     size: "sm",
     my: 4,

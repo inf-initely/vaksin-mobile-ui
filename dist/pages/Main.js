@@ -7,6 +7,7 @@ import SearchCity from "../components/SearchCity.js";
 import LocationList from "../components/LocationList.js";
 import {SessionCache} from "../cache.js";
 import {useSearchParams} from "../../_snowpack/pkg/react-router-dom.js";
+import {Helmet} from "../../_snowpack/pkg/react-helmet.js";
 export default function MainPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchLastSelectedCity = searchParams.get("lsc");
@@ -51,7 +52,7 @@ export default function MainPage() {
     display: "flex",
     flexDirection: "row",
     px: 0
-  }, /* @__PURE__ */ React.createElement(VStack, {
+  }, /* @__PURE__ */ React.createElement(Helmet, null, /* @__PURE__ */ React.createElement("title", null, selectedCity ? `Lokasi Vaksin di ${selectedCity.city}` : `Pilih Kota/Kabupaten`)), /* @__PURE__ */ React.createElement(VStack, {
     hidden: isLoadingRegions,
     minH: "100%",
     width: "100%",
