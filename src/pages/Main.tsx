@@ -6,6 +6,7 @@ import SearchCity from 'Components/SearchCity'
 import LocationList from 'Components/LocationList'
 import { SessionCache } from '#/cache'
 import { useSearchParams } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
 export default function MainPage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -84,6 +85,13 @@ export default function MainPage() {
       flexDirection="row"
       px={0}
     >
+      <Helmet>
+        <title>
+          {selectedCity
+            ? `Lokasi Vaksin di ${selectedCity.city}`
+            : `Pilih Kota/Kabupaten`}
+        </title>
+      </Helmet>
       <VStack
         hidden={isLoadingRegions}
         minH="100%"

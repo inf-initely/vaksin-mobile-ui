@@ -35,6 +35,7 @@ import type { IconType } from 'react-icons'
 import regMethodNormalizer from 'Functions/regMethodNormalizer'
 import GoogleMapEmbed from 'Components/GMapEmbed'
 import { useSearchParams } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
 const TablesBody: [
   title: string,
@@ -157,6 +158,7 @@ export default function InformationPage() {
 
   useEffect(() => {
     if (searchParams.has('lsc')) return
+
     window.history.replaceState(
       {},
       document.title,
@@ -199,6 +201,9 @@ export default function InformationPage() {
       px={4}
       pb={3}
     >
+      <Helmet>
+        <title>{`${location.title} di ${SessionCache.lastSelectedCity?.city}`}</title>
+      </Helmet>
       <Heading as="h1" size="sm" my={4} color="green.500">
         {location.title}
       </Heading>
