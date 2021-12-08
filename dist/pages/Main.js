@@ -14,7 +14,7 @@ export default function MainPage() {
   };
   if (queryParamCity.city && queryParamCity.province) {
     SessionCache.lastSelectedCity = queryParamCity;
-    window.history.replaceState({}, document.title, __SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL);
+    window.history.replaceState({}, document.title, __SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL ?? "/");
   }
   const {regions, start: fetchRegions, _setRegions} = useRegions();
   const [isLoadingRegions, setLoadingRegions] = useState(SessionCache.regions.length === 0);
