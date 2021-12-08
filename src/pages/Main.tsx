@@ -89,7 +89,7 @@ export default function MainPage() {
         <title>
           {selectedCity
             ? `Lokasi Vaksin di ${selectedCity.city}`
-            : `Pilih Kota/Kabupaten`}
+            : `Lokasi Vaksinasi by DIGIDES`}
         </title>
       </Helmet>
       <VStack
