@@ -1,4 +1,4 @@
-import { LocationCache } from '#/cache'
+import { LocationCache, SessionCache } from '#/cache'
 import {
   Container,
   Table,
@@ -13,7 +13,7 @@ import {
   Icon,
   Badge,
 } from '@chakra-ui/react'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { useParams } from 'react-router'
 import type { Locations } from 'types/api'
 import {
@@ -34,6 +34,7 @@ import {
 import type { IconType } from 'react-icons'
 import regMethodNormalizer from 'Functions/regMethodNormalizer'
 import GoogleMapEmbed from 'Components/GMapEmbed'
+import { useSearchParams } from 'react-router-dom'
 
 const TablesBody: [
   title: string,
@@ -144,12 +145,26 @@ const TablesBody: [
 
 export default function InformationPage() {
   const { locationHash } = useParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const location = LocationCache[locationHash!]
 
   if (location == null) {
-    window.location.href = import.meta.env.SNOWPACK_PUBLIC_API_URL ?? '/'
+    window.location.href =
+      (import.meta.env.SNOWPACK_PUBLIC_API_URL ?? '/') +
+      `#/?${searchParams.toString()}`
     return <></>
   }
+
+  useEffect(() => {
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.href +
+        `?Y=${SessionCache.scrollY}&lsc=${btoa(
+          JSON.stringify(SessionCache.lastSelectedCity),
+        )}`,
+    )
+  }, [])
   // // !mock
   // const location = {
   //   province: 'Sulawesi Selatan',
