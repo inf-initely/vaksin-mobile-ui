@@ -156,6 +156,7 @@ export default function InformationPage() {
   }
 
   useEffect(() => {
+    if (searchParams.has('lsc')) return
     window.history.replaceState(
       {},
       document.title,
