@@ -52,7 +52,7 @@ export default function MainPage() {
     display: "flex",
     flexDirection: "row",
     px: 0
-  }, /* @__PURE__ */ React.createElement(Helmet, null, /* @__PURE__ */ React.createElement("title", null, selectedCity ? `Lokasi Vaksin di ${selectedCity.city}` : `Pilih Kota/Kabupaten`)), /* @__PURE__ */ React.createElement(VStack, {
+  }, /* @__PURE__ */ React.createElement(Helmet, null, /* @__PURE__ */ React.createElement("title", null, selectedCity ? `Lokasi Vaksin di ${selectedCity.city}` : `Lokasi Vaksinasi by DIGIDES`)), /* @__PURE__ */ React.createElement(VStack, {
     hidden: isLoadingRegions,
     minH: "100%",
     width: "100%",
