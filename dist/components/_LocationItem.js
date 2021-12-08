@@ -15,11 +15,9 @@ import {
   RiRoadMapLine,
   RiMapPinLine
 } from "../../_snowpack/pkg/react-icons/ri.js";
-import hash from "../../_snowpack/pkg/object-hash.js";
 import regMethodNormalizer from "../functions/regMethodNormalizer.js";
-import {SessionCache} from "../cache.js";
 export default function LocationItem(props) {
-  const {location, onOpenDetail, ...rest} = props;
+  const {location, onClick, to, ...rest} = props;
   const {display, icon, color} = regMethodNormalizer(location.registration);
   return /* @__PURE__ */ React.createElement(LinkBox, {
     ...rest,
@@ -37,15 +35,12 @@ export default function LocationItem(props) {
     textAlign: "left"
   }, /* @__PURE__ */ React.createElement(LinkOverlay, {
     as: RouterLink,
-    to: `detail/${hash(location)}`,
+    to,
     href: "#",
     color: "green.600",
     fontWeight: "semibold",
     fontSize: "sm",
-    onClick: () => {
-      onOpenDetail?.(location);
-      SessionCache.scrollY = window.scrollY;
-    }
+    onClick
   }, location.title), /* @__PURE__ */ React.createElement(Grid, {
     templateColumns: "max-content auto",
     gridGap: 1,

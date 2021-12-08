@@ -6,16 +6,28 @@ import {Spinner, Container, VStack, Portal, Box} from "../../_snowpack/pkg/@chak
 import SearchCity from "../components/SearchCity.js";
 import LocationList from "../components/LocationList.js";
 import {SessionCache} from "../cache.js";
+import {useSearchParams} from "../../_snowpack/pkg/react-router-dom.js";
 export default function MainPage() {
-  const queryParams = new URL(window.location.href).searchParams;
-  const queryParamCity = {
-    city: queryParams.get("city"),
-    province: queryParams.get("province")
-  };
-  if (queryParamCity.city && queryParamCity.province) {
-    SessionCache.lastSelectedCity = queryParamCity;
-    window.history.replaceState({}, document.title, __SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL ?? "/");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchLastSelectedCity = searchParams.get("lsc");
+  const searchScrollY = searchParams.get("Y");
+  const searchCity = searchParams.get("city");
+  const searchProvince = searchParams.get("province");
+  if (searchCity && searchProvince) {
+    SessionCache.lastSelectedCity = {
+      city: searchCity,
+      province: searchProvince
+    };
   }
+  if (searchLastSelectedCity) {
+    SessionCache.lastSelectedCity = JSON.parse(atob(decodeURIComponent(searchLastSelectedCity)));
+  }
+  if (searchScrollY) {
+    SessionCache.scrollY = Number.parseFloat(searchScrollY);
+  }
+  useEffect(() => {
+    window.history.replaceState({}, document.title, (__SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL ?? "/") + "#/");
+  }, []);
   const {regions, start: fetchRegions, _setRegions} = useRegions();
   const [isLoadingRegions, setLoadingRegions] = useState(SessionCache.regions.length === 0);
   const [selectedCity, setSelectedCity] = useState(SessionCache.lastSelectedCity);

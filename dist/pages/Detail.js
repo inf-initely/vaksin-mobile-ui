@@ -1,6 +1,6 @@
 import * as __SNOWPACK_ENV__ from '../../_snowpack/env.js';
 
-import {LocationCache} from "../cache.js";
+import {LocationCache, SessionCache} from "../cache.js";
 import {
   Container,
   Table,
@@ -14,7 +14,7 @@ import {
   HStack,
   Icon
 } from "../../_snowpack/pkg/@chakra-ui/react.js";
-import React from "../../_snowpack/pkg/react.js";
+import React, {useEffect} from "../../_snowpack/pkg/react.js";
 import {useParams} from "../../_snowpack/pkg/react-router.js";
 import {
   RiTimeLine,
@@ -31,6 +31,7 @@ import {
 } from "../../_snowpack/pkg/react-icons/ri.js";
 import regMethodNormalizer from "../functions/regMethodNormalizer.js";
 import GoogleMapEmbed from "../components/GMapEmbed.js";
+import {useSearchParams} from "../../_snowpack/pkg/react-router-dom.js";
 const TablesBody = [
   [
     "Deskripsi",
@@ -124,11 +125,15 @@ const TablesBody = [
 ];
 export default function InformationPage() {
   const {locationHash} = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const location = LocationCache[locationHash];
   if (location == null) {
-    window.location.href = __SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL ?? "/";
+    window.location.href = (__SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL ?? "/") + `#/?${searchParams.toString()}`;
     return /* @__PURE__ */ React.createElement(React.Fragment, null);
   }
+  useEffect(() => {
+    window.history.replaceState({}, document.title, window.location.href + `?Y=${SessionCache.scrollY}&lsc=${btoa(JSON.stringify(SessionCache.lastSelectedCity))}`);
+  }, []);
   return /* @__PURE__ */ React.createElement(Container, {
     maxW: "container.sm",
     justifyContent: "center",

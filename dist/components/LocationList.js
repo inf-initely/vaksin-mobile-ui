@@ -28,14 +28,18 @@ export default function LocationList(props) {
   }, /* @__PURE__ */ React.createElement(VStack, {
     hidden: loading,
     alignItems: "stretch"
-  }, locations.map((location, index) => /* @__PURE__ */ React.createElement(LocationItem, {
-    location,
-    key: index,
-    onOpenDetail: (location2) => {
-      const locationHash = hash(location2);
-      LocationCache[locationHash] = location2;
-    }
-  }))), /* @__PURE__ */ React.createElement(Portal, null, /* @__PURE__ */ React.createElement(Box, {
+  }, locations.map((location, index) => {
+    const locationHash = hash(location);
+    return /* @__PURE__ */ React.createElement(LocationItem, {
+      location,
+      key: index,
+      to: `detail/${locationHash}`,
+      onClick: () => {
+        LocationCache[locationHash] = location;
+        SessionCache.scrollY = window.scrollY;
+      }
+    });
+  })), /* @__PURE__ */ React.createElement(Portal, null, /* @__PURE__ */ React.createElement(Box, {
     position: "absolute",
     top: "50%",
     left: "50%",
