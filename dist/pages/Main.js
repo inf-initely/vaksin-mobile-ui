@@ -1,8 +1,17 @@
 import * as __SNOWPACK_ENV__ from '../../_snowpack/env.js';
 
+const PUBLIC_URL = (path) => (__SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL ?? "/") + path;
 import React, {useState, useEffect} from "../../_snowpack/pkg/react.js";
 import {useRegions} from "../functions/useRegions.js";
-import {Spinner, Container, VStack, Portal, Box} from "../../_snowpack/pkg/@chakra-ui/react.js";
+import {
+  Spinner,
+  Container,
+  VStack,
+  Portal,
+  Box,
+  Text,
+  Image
+} from "../../_snowpack/pkg/@chakra-ui/react.js";
 import SearchCity from "../components/SearchCity.js";
 import LocationList from "../components/LocationList.js";
 import {SessionCache} from "../cache.js";
@@ -27,7 +36,7 @@ export default function MainPage() {
     SessionCache.scrollY = Number.parseFloat(searchScrollY);
   }
   useEffect(() => {
-    window.history.replaceState({}, document.title, (__SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL ?? "/") + "#/");
+    window.history.replaceState({}, document.title, PUBLIC_URL("#/"));
   }, []);
   const {regions, start: fetchRegions, _setRegions} = useRegions();
   const [isLoadingRegions, setLoadingRegions] = useState(SessionCache.regions.length === 0);
@@ -66,7 +75,6 @@ export default function MainPage() {
       setSelectedCity(city);
       SessionCache.lastSelectedCity = city;
     },
-    className: selectedCity ? "" : "middle",
     position: "sticky",
     py: 3,
     bgColor: "rgba(255,255,255,0.4)",
@@ -101,5 +109,23 @@ export default function MainPage() {
     thickness: "4px",
     emptyColor: "gray.200",
     color: "green.500"
-  }))));
+  })), /* @__PURE__ */ React.createElement(VStack, {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    hidden: selectedCity != null || isLoadingRegions,
+    width: "full",
+    opacity: 0.5,
+    px: 10
+  }, /* @__PURE__ */ React.createElement(Box, {
+    boxSize: 32,
+    mb: 5
+  }, /* @__PURE__ */ React.createElement(Image, {
+    src: PUBLIC_URL("assets/vaccine_mono.svg")
+  })), /* @__PURE__ */ React.createElement(Text, {
+    textAlign: "center",
+    color: "green.600",
+    fontWeight: "semibold"
+  }, "Temukan lokasi vaksin terdekat di kota/kabupaten mu!"))));
 }

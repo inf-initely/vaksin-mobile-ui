@@ -1,6 +1,7 @@
 import * as __SNOWPACK_ENV__ from '../_snowpack/env.js';
 import.meta.env = __SNOWPACK_ENV__;
 
+const PUBLIC_URL = (path) => (__SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL ?? "/") + path;
 import React from "../_snowpack/pkg/react.js";
 import ReactDOM from "../_snowpack/pkg/react-dom.js";
 import App from "./App.js";

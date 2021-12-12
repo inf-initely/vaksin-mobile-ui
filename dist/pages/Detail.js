@@ -1,5 +1,6 @@
 import * as __SNOWPACK_ENV__ from '../../_snowpack/env.js';
 
+const PUBLIC_URL = (path) => (__SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL ?? "/") + path;
 import {LocationCache, SessionCache} from "../cache.js";
 import {
   Container,
@@ -153,14 +154,14 @@ export default function InformationPage() {
     color: "green.500"
   }, location.title), /* @__PURE__ */ React.createElement(Box, {
     border: "1px solid",
-    borderColor: "gray.300",
+    borderColor: "gray.100",
     borderRadius: "md"
   }, /* @__PURE__ */ React.createElement(Table, {
     fontSize: "sm"
   }, /* @__PURE__ */ React.createElement(Tbody, null, TablesBody.map((v, i) => /* @__PURE__ */ React.createElement(Tr, {
     key: i,
     borderBottom: "1px solid",
-    borderColor: "gray.300",
+    borderColor: "gray.100",
     sx: {
       "&:last-of-type": {
         borderBottom: "none"

@@ -1,3 +1,6 @@
+import * as __SNOWPACK_ENV__ from '../../_snowpack/env.js';
+
+const PUBLIC_URL = (path) => (__SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL ?? "/") + path;
 import {
   Box,
   Spinner,
@@ -57,7 +60,8 @@ export default function LocationList(props) {
     transform: "translate(-50%, -50%)",
     hidden: locations.length > 0 || selectedCity == null || loading,
     width: "full",
-    px: 10
+    px: 10,
+    opacity: 0.7
   }, /* @__PURE__ */ React.createElement(Icon, {
     as: RiEmotionUnhappyLine,
     boxSize: 16,
@@ -65,5 +69,5 @@ export default function LocationList(props) {
   }), /* @__PURE__ */ React.createElement(Text, {
     textAlign: "center",
     color: "red.400"
-  }, "Lokasi Vaksin di ", selectedCity?.city, " tidak ditemukan."))));
+  }, "Lokasi Vaksin di ", selectedCity?.city, " tidak ditemukan..."))));
 }

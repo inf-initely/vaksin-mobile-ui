@@ -1,3 +1,6 @@
+import * as __SNOWPACK_ENV__ from '../../_snowpack/env.js';
+
+const PUBLIC_URL = (path) => (__SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL ?? "/") + path;
 import {Icon, Input, InputGroup, InputLeftElement} from "../../_snowpack/pkg/@chakra-ui/react.js";
 import Fuse from "../../_snowpack/pkg/fusejs.js";
 import React, {forwardRef, useEffect, useState} from "../../_snowpack/pkg/react.js";
