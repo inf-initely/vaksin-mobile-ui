@@ -1,188 +1,62 @@
 import * as __SNOWPACK_ENV__ from '../../_snowpack/env.js';
 
 const PUBLIC_URL = (path) => (__SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL ?? "/") + path;
-import {LocationCache, SessionCache} from "../cache.js";
-import {
-  Container,
-  Table,
-  Td,
-  Tr,
-  Text,
-  Link,
-  Tbody,
-  Box,
-  Heading,
-  HStack,
-  Icon
-} from "../../_snowpack/pkg/@chakra-ui/react.js";
-import React, {useEffect} from "../../_snowpack/pkg/react.js";
-import {useParams} from "../../_snowpack/pkg/react-router.js";
-import {
-  RiTimeLine,
-  RiTimeFill,
-  RiMapPinLine,
-  RiFileList3Line,
-  RiUserAddLine,
-  RiTeamLine,
-  RiInformationLine,
-  RiCalendar2Line,
-  RiCalendar2Fill,
-  RiTeamFill,
-  RiExternalLinkFill
-} from "../../_snowpack/pkg/react-icons/ri.js";
-import regMethodNormalizer from "../functions/regMethodNormalizer.js";
-import GoogleMapEmbed from "../components/GMapEmbed.js";
-import {useSearchParams} from "../../_snowpack/pkg/react-router-dom.js";
-import {Helmet} from "../../_snowpack/pkg/react-helmet.js";
-const TablesBody = [
-  [
-    "Deskripsi",
-    RiFileList3Line,
-    (l) => l.description.split("\n").map((v, i) => /* @__PURE__ */ React.createElement(Text, {
-      fontSize: "inherit",
-      key: i
-    }, v))
-  ],
-  [
-    "Alamat",
-    RiMapPinLine,
-    (l) => /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Text, {
-      fontSize: "inherit"
-    }, l.address), /* @__PURE__ */ React.createElement(HStack, {
-      mt: 1
-    }, /* @__PURE__ */ React.createElement(Icon, {
-      as: RiExternalLinkFill,
-      color: "gray.500",
-      boxSize: 4
-    }), /* @__PURE__ */ React.createElement(Text, {
-      fontSize: "inherit"
-    }, /* @__PURE__ */ React.createElement(GoogleMapEmbed, {
-      link: l.map
-    }))))
-  ],
-  [
-    "Jam Buka",
-    RiTimeLine,
-    (l) => /* @__PURE__ */ React.createElement(HStack, null, /* @__PURE__ */ React.createElement(Icon, {
-      as: RiTimeFill,
-      color: "gray.500",
-      boxSize: 4
-    }), /* @__PURE__ */ React.createElement(Text, {
-      fontSize: "inherit"
-    }, l.timestart, " - ", l.timeend))
-  ],
-  [
-    "Registrasi",
-    RiUserAddLine,
-    (l) => {
-      const {display, icon, color} = regMethodNormalizer(l.registration, true);
-      return /* @__PURE__ */ React.createElement(HStack, null, /* @__PURE__ */ React.createElement(Icon, {
-        as: icon,
-        color: "gray.500",
-        boxSize: 4
-      }), /* @__PURE__ */ React.createElement(Text, {
-        fontSize: "inherit"
-      }, display));
-    }
-  ],
-  [
-    "Rentang Umur",
-    RiTeamLine,
-    (l) => /* @__PURE__ */ React.createElement(HStack, null, /* @__PURE__ */ React.createElement(Icon, {
-      as: RiTeamFill,
-      color: "gray.500",
-      boxSize: 4
-    }), /* @__PURE__ */ React.createElement(Box, null, l.agerange.map((v, i) => /* @__PURE__ */ React.createElement(Text, {
-      fontSize: "inherit",
-      key: i
-    }, v))))
-  ],
-  [
-    "Tautan",
-    RiInformationLine,
-    (l) => /* @__PURE__ */ React.createElement(HStack, null, /* @__PURE__ */ React.createElement(Icon, {
-      as: RiExternalLinkFill,
-      color: "gray.500",
-      boxSize: 4
-    }), /* @__PURE__ */ React.createElement(Text, {
-      fontSize: "inherit"
-    }, /* @__PURE__ */ React.createElement(Link, {
-      href: l.link,
-      target: "_blank",
-      children: new URL(l.link).hostname,
-      variant: "highlight"
-    })))
-  ],
-  [
-    "Periode Vaksinasi",
-    RiCalendar2Line,
-    (l) => /* @__PURE__ */ React.createElement(HStack, null, /* @__PURE__ */ React.createElement(Icon, {
-      as: RiCalendar2Fill,
-      color: "gray.500",
-      boxSize: 4
-    }), /* @__PURE__ */ React.createElement(Text, {
-      fontSize: "inherit"
-    }, l.datestart, " s/d ", l.dateend))
-  ]
-];
-export default function InformationPage() {
-  const {locationHash} = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const location = LocationCache[locationHash];
-  if (location == null) {
-    window.location.href = (__SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL ?? "/") + `#/?${searchParams.toString()}`;
-    return /* @__PURE__ */ React.createElement(React.Fragment, null);
-  }
+import React, {Fragment} from "../../_snowpack/pkg/react.js";
+import LocationBackButton from "../components/pages/Detail/BackButton.js";
+import LocationDetail from "../components/pages/Detail/TheDetail.js";
+import {valueToApi} from "../functions/regionValueNormalizer.js";
+import useFetchLocations from "../functions/useFetchLocations.js";
+import {useCityParam, useLocationHashParam} from "../functions/useValidParams.js";
+import {useEffect, useMemo} from "../../_snowpack/pkg/react.js";
+import {useLocation} from "../../_snowpack/pkg/react-router-dom.js";
+import hash from "../../_snowpack/pkg/object-hash.js";
+import useSetRootBg from "../functions/useSetRootBg.js";
+import {useStoreContext} from "../components/StoreContext.js";
+import useSetInitialSearch from "../functions/useSetInitialSearch.js";
+export default function LocationPage() {
+  const city = useCityParam();
+  const {pathname} = useLocation();
+  const locationHash = useLocationHashParam();
+  const {
+    locations: [locations]
+  } = useStoreContext();
+  const {startFetch, locations: l} = useFetchLocations(city ? valueToApi(city) : null);
+  const cache = useMemo(() => {
+    if (city == null || locationHash == null || locations == null)
+      return null;
+    console.log("Attempting to use cache with hash:", locationHash);
+    return locations.data.find((l2) => hash(l2) === locationHash);
+  }, [city, locationHash]);
   useEffect(() => {
-    if (searchParams.has("lsc"))
+    if (city == null)
       return;
-    window.history.replaceState({}, document.title, window.location.href + `?Y=${SessionCache.scrollY}&lsc=${btoa(JSON.stringify(SessionCache.lastSelectedCity))}`);
-  }, []);
-  return /* @__PURE__ */ React.createElement(Container, {
-    maxW: "container.sm",
-    justifyContent: "center",
-    alignItems: "center",
-    minH: "100%",
-    display: "flex",
-    flexDirection: "column",
-    px: 4,
-    pb: 3
-  }, /* @__PURE__ */ React.createElement(Helmet, null, /* @__PURE__ */ React.createElement("title", null, `${location.title} di ${SessionCache.lastSelectedCity?.city}`)), /* @__PURE__ */ React.createElement(Heading, {
-    as: "h1",
-    size: "sm",
-    my: 4,
-    color: "green.500"
-  }, location.title), /* @__PURE__ */ React.createElement(Box, {
-    border: "1px solid",
-    borderColor: "gray.100",
-    borderRadius: "md"
-  }, /* @__PURE__ */ React.createElement(Table, {
-    fontSize: "sm"
-  }, /* @__PURE__ */ React.createElement(Tbody, null, TablesBody.map((v, i) => /* @__PURE__ */ React.createElement(Tr, {
-    key: i,
-    borderBottom: "1px solid",
-    borderColor: "gray.100",
-    sx: {
-      "&:last-of-type": {
-        borderBottom: "none"
-      }
+    if (cache == null) {
+      console.log("Fetching since cache is empty!");
+      startFetch();
     }
-  }, /* @__PURE__ */ React.createElement(Td, {
-    display: ["flex", "table-cell"],
-    border: "none",
-    px: 2,
-    pt: 4,
-    pb: [0, 4],
-    color: "gray.500",
-    fontWeight: "medium"
-  }, /* @__PURE__ */ React.createElement(HStack, null, /* @__PURE__ */ React.createElement(Text, {
-    fontSize: "inherit"
-  }, v[0]))), /* @__PURE__ */ React.createElement(Td, {
-    display: ["flex", "table-cell"],
-    px: 2,
-    pb: 4,
-    pt: [2, 4],
-    border: "none",
-    flexDirection: "column"
-  }, v[2]?.(location))))))));
+  }, [city, cache]);
+  const location = useMemo(() => {
+    if (cache)
+      return cache;
+    if (l == null)
+      return null;
+    return l.find((l2) => hash(l2) === locationHash) ?? null;
+  }, [cache, l]);
+  useSetRootBg("gray.50");
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  useSetInitialSearch();
+  useEffect(() => {
+    console.log(city);
+    if (city == null)
+      return;
+    if (city === false || location == null && cache == null)
+      window.location.replace("/404.html");
+  }, [city, location]);
+  return /* @__PURE__ */ React.createElement(Fragment, null, /* @__PURE__ */ React.createElement(LocationBackButton, {
+    py: 3
+  }), /* @__PURE__ */ React.createElement(LocationDetail, {
+    data: location
+  }));
 }

@@ -1,10 +1,12 @@
 import {
   RiCommunityLine,
-  RiBuilding4Line,
-  RiHome5Line,
   RiInformationLine,
-  RiArrowRightCircleLine
+  RiArrowRightCircleLine,
+  RiHospitalLine
 } from "../../_snowpack/pkg/react-icons/ri.js";
+import {
+  MdOutlinePhonelink
+} from "../../_snowpack/pkg/react-icons/md.js";
 var RegistrationMethod;
 (function(RegistrationMethod2) {
   RegistrationMethod2["ONLINE"] = "Online";
@@ -35,13 +37,13 @@ export default function regMethodNormalizer(str, detailed = false) {
     return {
       display: detailed ? str : RegistrationMethod.OFFLINE,
       color: "green",
-      icon: RiBuilding4Line
+      icon: RiHospitalLine
     };
   if (/online/gi.test(str))
     return {
       display: detailed ? str : RegistrationMethod.ONLINE,
       color: "pink",
-      icon: RiHome5Line
+      icon: MdOutlinePhonelink
     };
   return otherMethodNormalizer(str, detailed);
 }

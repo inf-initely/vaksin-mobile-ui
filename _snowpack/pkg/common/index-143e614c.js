@@ -752,4 +752,4 @@ const normalizeSearch = search => !search || search === "?" ? "" : search.starts
 
 const normalizeHash = hash => !hash || hash === "#" ? "" : hash.startsWith("#") ? hash : "#" + hash; ///////////////////////////////////////////////////////////////////////////////
 
-export { I, Outlet as O, Router as R, useHref as a, useNavigate as b, createHashHistory as c, useLocation as d, useResolvedPath as e, Routes as f, Route as g, useParams as u };
+export { I, Outlet as O, Router as R, useLocation as a, useResolvedPath as b, createHashHistory as c, useNavigate as d, Routes as e, Route as f, useParams as g, useHref as u };

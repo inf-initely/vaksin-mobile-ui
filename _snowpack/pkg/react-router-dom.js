@@ -1,6 +1,6 @@
 import { r as react } from './common/index-c5947f9c.js';
-import { c as createHashHistory, R as Router, a as useHref, I, b as useNavigate, d as useLocation, e as useResolvedPath } from './common/index-969c4dbf.js';
-export { g as Route, f as Routes } from './common/index-969c4dbf.js';
+import { c as createHashHistory, R as Router, u as useHref, I, a as useLocation, b as useResolvedPath, d as useNavigate } from './common/index-143e614c.js';
+export { f as Route, e as Routes, a as useLocation, g as useParams } from './common/index-143e614c.js';
 import './common/_commonjsHelpers-4f56b6ba.js';
 import './common/extends-7477639a.js';
 
@@ -48,7 +48,8 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   return target;
 }
 
-const _excluded = ["onClick", "reloadDocument", "replace", "state", "target", "to"];
+const _excluded = ["onClick", "reloadDocument", "replace", "state", "target", "to"],
+      _excluded2 = ["aria-current", "caseSensitive", "className", "end", "style", "to"];
 
 /**
  * A <Router> for use in web browsers. Stores the location in the hash
@@ -127,6 +128,59 @@ const Link = /*#__PURE__*/react.forwardRef(function LinkWithRef(_ref3, ref) {
     }))
   );
 });
+
+/**
+ * A <Link> wrapper that knows if it's "active" or not.
+ */
+const NavLink = /*#__PURE__*/react.forwardRef(function NavLinkWithRef(_ref4, ref) {
+  let {
+    "aria-current": ariaCurrentProp = "page",
+    caseSensitive = false,
+    className: classNameProp = "",
+    end = false,
+    style: styleProp,
+    to
+  } = _ref4,
+      rest = _objectWithoutPropertiesLoose(_ref4, _excluded2);
+
+  let location = useLocation();
+  let path = useResolvedPath(to);
+  let locationPathname = location.pathname;
+  let toPathname = path.pathname;
+
+  if (!caseSensitive) {
+    locationPathname = locationPathname.toLowerCase();
+    toPathname = toPathname.toLowerCase();
+  }
+
+  let isActive = locationPathname === toPathname || !end && locationPathname.startsWith(toPathname) && locationPathname.charAt(toPathname.length) === "/";
+  let ariaCurrent = isActive ? ariaCurrentProp : undefined;
+  let className;
+
+  if (typeof classNameProp === "function") {
+    className = classNameProp({
+      isActive
+    });
+  } else {
+    // If the className prop is not a function, we use a default `active`
+    // class for <NavLink />s that are active. In v5 `active` was the default
+    // value for `activeClassName`, but we are removing that API and can still
+    // use the old default behavior for a cleaner upgrade path and keep the
+    // simple styling rules working as they currently do.
+    className = [classNameProp, isActive ? "active" : null].filter(Boolean).join(" ");
+  }
+
+  let style = typeof styleProp === "function" ? styleProp({
+    isActive
+  }) : styleProp;
+  return /*#__PURE__*/react.createElement(Link, _extends({}, rest, {
+    "aria-current": ariaCurrent,
+    className: className,
+    ref: ref,
+    style: style,
+    to: to
+  }));
+});
 // HOOKS
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -162,64 +216,5 @@ function useLinkClickHandler(to, _temp) {
     }
   }, [location, navigate, path, replaceProp, state, target, to]);
 }
-/**
- * A convenient wrapper for reading and writing search parameters via the
- * URLSearchParams interface.
- */
 
-function useSearchParams(defaultInit) {
-  let defaultSearchParamsRef = react.useRef(createSearchParams(defaultInit));
-  let location = useLocation();
-  let searchParams = react.useMemo(() => {
-    let searchParams = createSearchParams(location.search);
-
-    for (let key of defaultSearchParamsRef.current.keys()) {
-      if (!searchParams.has(key)) {
-        defaultSearchParamsRef.current.getAll(key).forEach(value => {
-          searchParams.append(key, value);
-        });
-      }
-    }
-
-    return searchParams;
-  }, [location.search]);
-  let navigate = useNavigate();
-  let setSearchParams = react.useCallback((nextInit, navigateOptions) => {
-    navigate("?" + createSearchParams(nextInit), navigateOptions);
-  }, [navigate]);
-  return [searchParams, setSearchParams];
-}
-
-/**
- * Creates a URLSearchParams object using the given initializer.
- *
- * This is identical to `new URLSearchParams(init)` except it also
- * supports arrays as values in the object form of the initializer
- * instead of just strings. This is convenient when you need multiple
- * values for a given key, but don't want to use an array initializer.
- *
- * For example, instead of:
- *
- *   let searchParams = new URLSearchParams([
- *     ['sort', 'name'],
- *     ['sort', 'price']
- *   ]);
- *
- * you can do:
- *
- *   let searchParams = createSearchParams({
- *     sort: ['name', 'price']
- *   });
- */
-function createSearchParams(init) {
-  if (init === void 0) {
-    init = "";
-  }
-
-  return new URLSearchParams(typeof init === "string" || Array.isArray(init) || init instanceof URLSearchParams ? init : Object.keys(init).reduce((memo, key) => {
-    let value = init[key];
-    return memo.concat(Array.isArray(value) ? value.map(v => [key, v]) : [[key, value]]);
-  }, []));
-}
-
-export { HashRouter, Link, useSearchParams };
+export { HashRouter, Link, NavLink };

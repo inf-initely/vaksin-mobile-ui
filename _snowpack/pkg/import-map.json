@@ -2,12 +2,14 @@
   "imports": {
     "@chakra-ui/react": "./@chakra-ui/react.js",
     "fuse.js": "./fusejs.js",
+    "lodash-es": "./lodash-es.js",
+    "luxon": "./luxon.js",
     "object-hash": "./object-hash.js",
     "react": "./react.js",
     "react-dom": "./react-dom.js",
-    "react-helmet": "./react-helmet.js",
-    "react-icons/fa": "./react-icons/fa.js",
+    "react-icons/md": "./react-icons/md.js",
     "react-icons/ri": "./react-icons/ri.js",
+    "react-merge-refs": "./react-merge-refs.js",
     "react-router": "./react-router.js",
     "react-router-dom": "./react-router-dom.js",
     "superstruct": "./superstruct.js"

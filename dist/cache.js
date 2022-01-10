@@ -1,7 +1,7 @@
-const LocationCache = {};
-const SessionCache = {
-  regions: [],
-  lastSelectedCity: void 0,
-  scrollY: 0
+const LocationDetailCache = {};
+const LocationListCache = {
+  lastHash: null,
+  locations: null,
+  lastLocation: null
 };
-export {LocationCache, SessionCache};
+export {LocationDetailCache, LocationListCache};
