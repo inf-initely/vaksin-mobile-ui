@@ -1,14 +1,15 @@
-import type { Cities, Locations, Regions } from 'types/api'
+import type { City, Locations, Region } from 'types/api'
+import type { Location } from 'history'
 
-const LocationCache: Record<string, Locations> = {}
-const SessionCache: {
-  regions: Regions[]
-  lastSelectedCity: Cities | undefined
-  scrollY: number
+const LocationDetailCache: Record<string, Locations> = {}
+const LocationListCache: {
+  lastHash: string | null
+  locations: Locations[] | null
+  lastLocation: Location | null
 } = {
-  regions: [],
-  lastSelectedCity: undefined,
-  scrollY: 0,
+  lastHash: null,
+  locations: null,
+  lastLocation: null,
 }
 
-export { LocationCache, SessionCache }
+export { LocationDetailCache, LocationListCache }

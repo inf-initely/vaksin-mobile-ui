@@ -1,11 +1,9 @@
+
 /** @type {import("snowpack").SnowpackUserConfig } */
-export default {
+const config = {
   mount: {
     public: { url: '/', static: true },
     src: { url: '/dist' },
-  },
-  env: {
-    SNOWPACK_PUBLIC_API_URL: '/'
   },
   alias: {
     Components: './src/components',
@@ -39,5 +37,10 @@ export default {
   },
   buildOptions: {
     /* ... */
+    jsxInject: '' +
+      `const PUBLIC_URL = path => (import.meta.env.SNOWPACK_PUBLIC_API_URL ?? '/') + path\n` +
+      `import React, { Fragment } from 'react'`
   },
 };
+
+export default config;

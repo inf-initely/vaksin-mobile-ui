@@ -1,9 +1,9 @@
-import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import './index.css'
 import { HashRouter, Routes, Route, Outlet } from 'react-router-dom'
-import MainPage from './pages/Main'
+import HomePage from './pages/Home'
+import ListPage from './pages/List'
 import DetailPage from './pages/Detail'
 
 ReactDOM.render(
@@ -11,8 +11,11 @@ ReactDOM.render(
     <HashRouter>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route index element={<MainPage />} />
-          <Route path="detail/:locationHash" element={<DetailPage />} />
+          <Route index element={<HomePage />} />
+          <Route path=":province/:city">
+            <Route index element={<ListPage />} />
+            <Route path=":locationHash" element={<DetailPage />} />
+          </Route>
         </Route>
       </Routes>
     </HashRouter>
