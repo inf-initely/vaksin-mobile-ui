@@ -5,7 +5,8 @@ import {
   RiHospitalLine
 } from "../../_snowpack/pkg/react-icons/ri.js";
 import {
-  MdOutlinePhonelink
+  MdOutlinePhonelink,
+  MdOutlineContactPhone
 } from "../../_snowpack/pkg/react-icons/md.js";
 var RegistrationMethod;
 (function(RegistrationMethod2) {
@@ -44,6 +45,12 @@ export default function regMethodNormalizer(str, detailed = false) {
       display: detailed ? str : RegistrationMethod.ONLINE,
       color: "pink",
       icon: MdOutlinePhonelink
+    };
+  if (/hubungi.*telepon/gi.test(str))
+    return {
+      display: detailed ? str : "Telepon",
+      color: "teal",
+      icon: MdOutlineContactPhone
     };
   return otherMethodNormalizer(str, detailed);
 }

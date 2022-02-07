@@ -2,32 +2,29 @@ import * as __SNOWPACK_ENV__ from '../_snowpack/env.js';
 
 const PUBLIC_URL = (path) => (__SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL ?? "/") + path;
 import React from "../_snowpack/pkg/react.js";
-import {DataProvider} from "./components/DataContext.js";
 import {useFetchRegions} from "./functions/useFetchRegions.js";
-import {useEffect, useMemo} from "../_snowpack/pkg/react.js";
-import {useLocation} from "../_snowpack/pkg/react-router-dom.js";
+import {useEffect} from "../_snowpack/pkg/react.js";
 import {useStoreContext} from "./components/StoreContext.js";
 import Fuse from "../_snowpack/pkg/fusejs.js";
-export default function Startup({children}) {
+import Indonesia from "./functions/Indonesia.js";
+export default function Bootstrap({children}) {
   const {startFetch, regions} = useFetchRegions();
   const {
-    searchFuse: [_, setSearchFuse]
+    searchFuse: [, setSearchFuse],
+    regions: [indonesia, setRegions]
   } = useStoreContext();
-  const {pathname} = useLocation();
   useEffect(() => {
     startFetch();
   }, []);
-  const cities = useMemo(() => {
+  useEffect(() => {
     if (regions == null)
-      return null;
-    return regions.map((region) => region.city.map((city) => ({city, province: region.province}))).flat();
+      return;
+    setRegions(new Indonesia(regions));
   }, [regions]);
   useEffect(() => {
-    if (cities == null)
+    if (indonesia == null)
       return;
-    setSearchFuse(new Fuse(cities, {keys: ["city"]}));
-  }, [cities]);
-  return /* @__PURE__ */ React.createElement(DataProvider, {
-    value: {regions}
-  }, children);
+    setSearchFuse(new Fuse(indonesia.cities, {keys: ["city"]}));
+  }, [indonesia]);
+  return /* @__PURE__ */ React.createElement(React.Fragment, null, children);
 }

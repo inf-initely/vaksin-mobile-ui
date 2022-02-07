@@ -3,22 +3,26 @@ import * as __SNOWPACK_ENV__ from '../../../_snowpack/env.js';
 const PUBLIC_URL = (path) => (__SNOWPACK_ENV__.SNOWPACK_PUBLIC_API_URL ?? "/") + path;
 import React from "../../../_snowpack/pkg/react.js";
 import {Heading, Link, VStack, Text} from "../../../_snowpack/pkg/@chakra-ui/react.js";
-import {apiToValue, valueToUrl} from "../../functions/regionValueNormalizer.js";
+import {useStoreContext} from "../StoreContext.js";
 import {defaults} from "../../../_snowpack/pkg/lodash-es.js";
 import {useMemo} from "../../../_snowpack/pkg/react.js";
 import {Link as RouterLink} from "../../../_snowpack/pkg/react-router-dom.js";
 function DropdownItem(props) {
   const {
+    regions: [regions]
+  } = useStoreContext();
+  const {
     city,
     ...rest
   } = props;
-  const displayValue = useMemo(() => apiToValue(city), [city]);
-  const urlValue = useMemo(() => valueToUrl(displayValue), [displayValue]);
+  const displayValue = city;
+  const urlValue = useMemo(() => regions?.toApi(displayValue, "url"), [displayValue]);
   return /* @__PURE__ */ React.createElement(Link, {
+    className: "city-item",
     as: RouterLink,
-    to: `/${urlValue.province}/${urlValue.city}`,
+    to: `/${urlValue?.province}/${urlValue?.city}`,
     sx: {
-      "&:first-of-type :first-of-type": {
+      "&:first-of-type > div": {
         borderTop: "none"
       }
     },

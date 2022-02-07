@@ -7,11 +7,9 @@ export const {
   provider: StoreProvider,
   hook: useStoreContext
 } = contextFactory({
-  lastLocationCache: [null, (_) => _],
-  detailCache: [{}, (_) => _],
   lastScroll: [{}, (_) => _],
   locations: [null, (_) => _],
   searchFuse: [null, (_) => _],
   searchInput: [null, (_) => _],
-  locationCache: [{}, (_) => _]
+  regions: [null, (_) => _]
 });

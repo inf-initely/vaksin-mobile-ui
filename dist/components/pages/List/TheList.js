@@ -14,7 +14,7 @@ import ListItem from "./Item.js";
 import {useLoadingContext} from "../../LoadingContext.js";
 import {RiEmotionSadLine} from "../../../../_snowpack/pkg/react-icons/ri.js";
 export default function TheList(props) {
-  const {data, ...rest} = props;
+  const {data, onClick, ...rest} = props;
   const {isLoading} = useLoadingContext();
   return /* @__PURE__ */ React.createElement(Container, {
     as: VStack,
@@ -24,18 +24,19 @@ export default function TheList(props) {
     gridGap: 3,
     textAlign: "center",
     alignItems: "stretch",
-    py: 5
+    py: 5,
+    pb: 20,
+    ...rest
   }, data?.map((location, i) => {
     const locationHash = hash(location);
     return /* @__PURE__ */ React.createElement(ListItem, {
       location,
       key: i,
       to: locationHash,
-      onClick: () => {
-      }
+      onClick
     });
   }), /* @__PURE__ */ React.createElement(Portal, null, /* @__PURE__ */ React.createElement(VStack, {
-    hidden: isLoading || data == null || data.length > 1,
+    hidden: isLoading || data == null || data.length > 0,
     position: "fixed",
     top: "50%",
     left: "50%",

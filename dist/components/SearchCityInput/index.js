@@ -11,7 +11,6 @@ import {
   Spinner,
   VStack
 } from "../../../_snowpack/pkg/@chakra-ui/react.js";
-import {useDataContext} from "../DataContext.js";
 import {useLoadingContext} from "../LoadingContext.js";
 import {
   forwardRef,
@@ -24,11 +23,14 @@ import {RiCloseLine, RiSearchLine} from "../../../_snowpack/pkg/react-icons/ri.j
 import CityDropdown from "./Dropdown.js";
 import useHasFocusWithin from "../../functions/useHasFocusWithin.js";
 import mergeRefs from "../../../_snowpack/pkg/react-merge-refs.js";
-import {apiToValue} from "../../functions/regionValueNormalizer.js";
 import {useStoreContext} from "../StoreContext.js";
+import useIsMobile from "../../functions/useIsMobile.js";
 const SearchCityInput = forwardRef((props, ref) => {
+  const isMobile = useIsMobile();
   const {onFocusWithin, ...rest} = props;
-  const {regions} = useDataContext();
+  const {
+    regions: [regions]
+  } = useStoreContext();
   const {isLoading} = useLoadingContext();
   const {
     searchFuse: [searchFuse],
@@ -60,9 +62,20 @@ const SearchCityInput = forwardRef((props, ref) => {
     ref: mergeRefs([ref ?? (() => {
     }), containerRef]),
     zIndex: "docked",
-    ...rest
+    className: hasFocus && isMobile && dropdownData.length !== 0 ? "is-mobile" : "",
+    ...rest,
+    sx: {
+      "&.is-mobile": {
+        position: "fixed",
+        top: 0,
+        width: "100%"
+      }
+    }
   }, /* @__PURE__ */ React.createElement(InputGroup, null, /* @__PURE__ */ React.createElement(InputRightElement, {
-    w: 10
+    w: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%"
   }, /* @__PURE__ */ React.createElement(IconButton, {
     variant: "ghost",
     boxSize: 7,
@@ -107,7 +120,13 @@ const SearchCityInput = forwardRef((props, ref) => {
     onInput: (e) => {
       search(inputRef.current.value);
     },
-    disabled: isLoading
+    disabled: isLoading,
+    sx: {
+      ".is-mobile &": {
+        borderRadius: "none",
+        py: 6
+      }
+    }
   })), /* @__PURE__ */ React.createElement(CityDropdown, {
     data: dropdownData,
     hidden: dropdownData.length === 0 || hasFocus == false,
@@ -115,14 +134,19 @@ const SearchCityInput = forwardRef((props, ref) => {
       console.log("clicked", city);
       if (inputRef.current == null)
         return;
-      const displayValue = apiToValue(city);
-      inputRef.current.value = displayValue.city;
+      inputRef.current.value = city.city;
       setSearchInput({
-        inputValue: displayValue.city,
+        inputValue: city.city,
         dropdownData
       });
       setFocus(false);
       document.body.focus();
+    },
+    sx: {
+      ".is-mobile &": {
+        borderRadius: "none",
+        height: "100vh"
+      }
     }
   }));
 });

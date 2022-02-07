@@ -19,7 +19,8 @@ export default function HomeFooter() {
     mt: 12,
     borderTopRadius: "2xl",
     minH: 24,
-    py: 5
+    py: 5,
+    px: 5
   }, /* @__PURE__ */ React.createElement(VStack, {
     spacing: 0,
     gridGap: 5
@@ -30,19 +31,7 @@ export default function HomeFooter() {
     zIndex: "base",
     justifyContent: "center",
     color: "green.500",
-    sx: {
-      "&::before": {
-        content: "''",
-        width: "100%",
-        position: "absolute",
-        top: "50%",
-        transform: "translateY(-50%)",
-        zIndex: "hide",
-        display: "block",
-        border: "1px solid",
-        borderColor: "green.200"
-      }
-    }
+    sx: {}
   }, /* @__PURE__ */ React.createElement(Heading, {
     zIndex: "base",
     bgColor: "white",

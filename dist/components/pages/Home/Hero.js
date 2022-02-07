@@ -17,7 +17,7 @@ import {
 import SearchCityInput from "../../SearchCityInput/index.js";
 import {useEffect, useRef, useState} from "../../../../_snowpack/pkg/react.js";
 import {RiCheckboxCircleFill, RiEditCircleFill} from "../../../../_snowpack/pkg/react-icons/ri.js";
-export default function HomeHero() {
+export default function HomeHero(props) {
   const inputRef = useRef(null);
   const flipMoveRef = useRef(null);
   const [hasFocus, setFocus] = useState(false);
@@ -33,15 +33,13 @@ export default function HomeHero() {
     gridGap: 8,
     textAlign: "center",
     py: 5,
-    ref: flipMoveRef
+    ref: flipMoveRef,
+    ...props
   }, /* @__PURE__ */ React.createElement(Box, {
-    width: 80,
-    order: hasFocus ? 2 : 1,
-    mt: 10
+    width: 80
   }, /* @__PURE__ */ React.createElement(Image, {
     src: PUBLIC_URL("assets/5063408.svg")
   })), /* @__PURE__ */ React.createElement(SearchCityInput, {
-    order: hasFocus ? 1 : 3,
     width: "90%",
     ref: inputRef,
     onFocusWithin: (state) => {
@@ -50,8 +48,7 @@ export default function HomeHero() {
       });
     }
   }), /* @__PURE__ */ React.createElement(Heading, {
-    size: "lg",
-    order: hasFocus ? 3 : 2
+    size: "lg"
   }, "Dapatkan informasi", " ", /* @__PURE__ */ React.createElement(Heading, {
     as: "span",
     size: "lg",

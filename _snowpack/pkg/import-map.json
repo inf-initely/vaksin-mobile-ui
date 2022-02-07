@@ -1,10 +1,12 @@
 {
   "imports": {
     "@chakra-ui/react": "./@chakra-ui/react.js",
+    "framer-motion-carousel": "./framer-motion-carousel.js",
     "fuse.js": "./fusejs.js",
     "lodash-es": "./lodash-es.js",
     "luxon": "./luxon.js",
     "object-hash": "./object-hash.js",
+    "pure-react-carousel/dist/react-carousel.es.css": "./pure-react-carousel/dist/react-carousel.es.css",
     "react": "./react.js",
     "react-dom": "./react-dom.js",
     "react-icons/md": "./react-icons/md.js",

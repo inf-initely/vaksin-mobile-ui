@@ -61,7 +61,7 @@ export default function LayoutFooter() {
     height: 14,
     position: "fixed",
     bottom: 0,
-    zIndex: "docked"
+    zIndex: 1410
   }, /* @__PURE__ */ React.createElement(Container, {
     maxW: "container.sm",
     height: "inherit",

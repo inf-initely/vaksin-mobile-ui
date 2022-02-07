@@ -19,12 +19,14 @@ import {DateTime} from "../../../../_snowpack/pkg/luxon.js";
 import {
   MdAccessTimeFilled,
   MdEventAvailable,
-  MdLocationOn
+  MdLocationOn,
+  MdOutlineLocalPhone
 } from "../../../../_snowpack/pkg/react-icons/md.js";
 import {Link as RouterLink} from "../../../../_snowpack/pkg/react-router-dom.js";
 export default function ListItem(props) {
   const {location, to, ...rest} = props;
-  const regMethod = regMethodNormalizer(location.registration);
+  const data = location.unified;
+  const regInfo = regMethodNormalizer(data.registration);
   return /* @__PURE__ */ React.createElement(LinkBox, {
     display: "flex",
     flexDir: "column",
@@ -38,7 +40,8 @@ export default function ListItem(props) {
     px: 5,
     spacing: 0,
     gridGap: 4,
-    alignItems: "stretch"
+    alignItems: "stretch",
+    ...rest
   }, /* @__PURE__ */ React.createElement(Flex, {
     gridGap: 2
   }, /* @__PURE__ */ React.createElement(VStack, {
@@ -56,7 +59,7 @@ export default function ListItem(props) {
   }, /* @__PURE__ */ React.createElement(LinkOverlay, {
     as: RouterLink,
     to
-  }, location.title)), /* @__PURE__ */ React.createElement(Text, {
+  }, data.title)), /* @__PURE__ */ React.createElement(Text, {
     fontSize: "0.825rem",
     color: "gray.500"
   }, /* @__PURE__ */ React.createElement(Icon, {
@@ -64,19 +67,19 @@ export default function ListItem(props) {
     mr: 1,
     color: "gray.300",
     boxSize: 4
-  }), location.address)), /* @__PURE__ */ React.createElement(VStack, {
+  }), data.address)), /* @__PURE__ */ React.createElement(VStack, {
     className: "link",
     width: "max-content",
     alignItems: "stretch"
   }, /* @__PURE__ */ React.createElement(Button, {
     size: "xs",
     as: "a",
-    href: location.link,
+    href: data.link,
     target: "_blank"
   }, "Tautan"), /* @__PURE__ */ React.createElement(Button, {
     size: "xs",
     as: "a",
-    href: location.map,
+    href: data.map,
     target: "_blank"
   }, "Peta"))), /* @__PURE__ */ React.createElement(HStack, {
     borderTop: "1px solid",
@@ -91,16 +94,16 @@ export default function ListItem(props) {
     opacity: 0.8,
     alignItems: "center"
   }, /* @__PURE__ */ React.createElement(Icon, {
-    as: regMethod.icon,
+    as: regInfo.icon,
     mr: 2,
-    color: `${regMethod.color}.300`,
+    color: `${regInfo.color}.300`,
     boxSize: 4
   }), /* @__PURE__ */ React.createElement(Badge, {
-    colorScheme: regMethod.color,
+    colorScheme: regInfo.color,
     size: "xs",
     fontFamily: "heading",
     letterSpacing: 0.2
-  }, regMethod.display)), /* @__PURE__ */ React.createElement(Flex, {
+  }, regInfo.display)), location.isVidDetail() ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Flex, {
     alignItems: "center",
     opacity: 0.6,
     gridGap: 2
@@ -129,5 +132,19 @@ export default function ListItem(props) {
     fontFamily: "heading",
     fontWeight: "semibold",
     order: 2
-  }, DateTime.fromSQL(location.datestart).toLocaleString(DateTime.DATE_MED), " ", "-", " ", DateTime.fromSQL(location.dateend).toLocaleString(DateTime.DATE_MED)))));
+  }, DateTime.fromSQL(location.datestart).toLocaleString(DateTime.DATE_MED), " ", "-", " ", DateTime.fromSQL(location.dateend).toLocaleString(DateTime.DATE_MED)))) : null, location.isKipiDetail() && location.telp != null ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Flex, {
+    alignItems: "center",
+    opacity: 0.6,
+    gridGap: 2
+  }, /* @__PURE__ */ React.createElement(Icon, {
+    as: MdOutlineLocalPhone,
+    boxSize: 4,
+    color: "blue.500",
+    order: 2
+  }), /* @__PURE__ */ React.createElement(Text, {
+    fontSize: "xs",
+    fontFamily: "heading",
+    fontWeight: "semibold",
+    order: 1
+  }, location.telp))) : null));
 }

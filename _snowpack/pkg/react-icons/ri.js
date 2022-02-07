@@ -19,6 +19,9 @@ var RiArrowLeftLine = function RiArrowLeftLine (props) {
 var RiArrowRightCircleLine = function RiArrowRightCircleLine (props) {
   return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 24 24"},"child":[{"tag":"g","attr":{},"child":[{"tag":"path","attr":{"fill":"none","d":"M0 0h24v24H0z"}},{"tag":"path","attr":{"d":"M12 11V8l4 4-4 4v-3H8v-2h4zm0-9c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 18c4.42 0 8-3.58 8-8s-3.58-8-8-8-8 3.58-8 8 3.58 8 8 8z"}}]}]})(props);
 };
+var RiArrowRightLine = function RiArrowRightLine (props) {
+  return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 24 24"},"child":[{"tag":"g","attr":{},"child":[{"tag":"path","attr":{"fill":"none","d":"M0 0h24v24H0z"}},{"tag":"path","attr":{"d":"M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"}}]}]})(props);
+};
 var RiCheckboxCircleFill = function RiCheckboxCircleFill (props) {
   return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 24 24"},"child":[{"tag":"g","attr":{},"child":[{"tag":"path","attr":{"fill":"none","d":"M0 0h24v24H0z"}},{"tag":"path","attr":{"d":"M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-.997-6l7.07-7.071-1.414-1.414-5.656 5.657-2.829-2.829-1.414 1.414L11.003 16z"}}]}]})(props);
 };
@@ -41,4 +44,4 @@ var RiTeamFill = function RiTeamFill (props) {
   return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 24 24"},"child":[{"tag":"g","attr":{},"child":[{"tag":"path","attr":{"fill":"none","d":"M0 0h24v24H0z"}},{"tag":"path","attr":{"d":"M12 11a5 5 0 0 1 5 5v6H7v-6a5 5 0 0 1 5-5zm-6.712 3.006a6.983 6.983 0 0 0-.28 1.65L5 16v6H2v-4.5a3.5 3.5 0 0 1 3.119-3.48l.17-.014zm13.424 0A3.501 3.501 0 0 1 22 17.5V22h-3v-6c0-.693-.1-1.362-.288-1.994zM5.5 8a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm13 0a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM12 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"}}]}]})(props);
 };
 
-export { RiArrowLeftLine, RiArrowRightCircleLine, RiCheckboxCircleFill, RiCloseLine, RiCommunityLine, RiEditCircleFill, RiEmotionSadLine, RiExternalLinkFill, RiHospitalLine, RiInformationLine, RiSearchLine, RiTeamFill };
+export { RiArrowLeftLine, RiArrowRightCircleLine, RiArrowRightLine, RiCheckboxCircleFill, RiCloseLine, RiCommunityLine, RiEditCircleFill, RiEmotionSadLine, RiExternalLinkFill, RiHospitalLine, RiInformationLine, RiSearchLine, RiTeamFill };

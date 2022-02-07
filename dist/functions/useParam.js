@@ -1,11 +1,12 @@
-import {useDataContext} from "../components/DataContext.js";
 import {useMemo} from "../../_snowpack/pkg/react.js";
 import {useParams} from "../../_snowpack/pkg/react-router-dom.js";
-import {apiToValue, urlToValue, valueToApi} from "./regionValueNormalizer.js";
 import hash from "../../_snowpack/pkg/object-hash.js";
+import {useStoreContext} from "../components/StoreContext.js";
 const cityParamCache = new Map();
 export function useCityParam() {
-  const {isCityValid, regions} = useDataContext();
+  const {
+    regions: [regions]
+  } = useStoreContext();
   const params = useParams();
   const {province, city} = params;
   return useMemo(() => {
@@ -17,8 +18,7 @@ export function useCityParam() {
     let result;
     if (result = cityParamCache.get(hashed) ?? null)
       return result;
-    const validParameters = valueToApi(urlToValue({province, city}));
-    result = isCityValid(validParameters) ? apiToValue(validParameters) : false;
+    result = regions.toValidUnified({province, city}, "url") ?? false;
     cityParamCache.set(hashed, result);
     return result;
   }, [params, regions]);
