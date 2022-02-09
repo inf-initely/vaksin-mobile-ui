@@ -10,7 +10,8 @@ export default function TheLocation(props) {
   const data = props.data;
   const city = useCityParam();
   return /* @__PURE__ */ React.createElement(Container, {
-    layerStyle: "constraint-sm"
+    layerStyle: "constraint-sm",
+    pb: 16
   }, /* @__PURE__ */ React.createElement(Heading, {
     size: "md",
     as: "h1",
